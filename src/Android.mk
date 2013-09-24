@@ -32,6 +32,11 @@ libgtest_target_includes := \
     $(LOCAL_PATH)/.. \
     $(LOCAL_PATH)/../include
 
+ifndef NDK_ROOT
+libgtest_target_includes += \
+    external/stlport/stlport bionic
+endif
+
 libgtest_host_includes := \
   $(LOCAL_PATH)/.. \
   $(LOCAL_PATH)/../include
@@ -75,6 +80,7 @@ include $(BUILD_HOST_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
+ifdef NDK_ROOT
 ifeq ($(TARGET_ARCH), arm)
    LOCAL_SDK_VERSION := 8
 else
@@ -83,6 +89,9 @@ else
 endif
 
 LOCAL_NDK_STL_VARIANT := stlport_static
+else
+LOCAL_STATIC_LIBRARIES:= libstlport_static
+endif
 
 LOCAL_CPP_EXTENSION := .cc
 
@@ -99,6 +108,7 @@ include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
+ifdef NDK_ROOT
 ifeq ($(TARGET_ARCH), arm)
    LOCAL_SDK_VERSION := 8
 else
@@ -107,6 +117,9 @@ else
 endif
 
 LOCAL_NDK_STL_VARIANT := stlport_static
+else
+LOCAL_STATIC_LIBRARIES:= libstlport_static
+endif
 
 LOCAL_CPP_EXTENSION := .cc
 
